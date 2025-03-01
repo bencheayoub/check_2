@@ -22,3 +22,15 @@ public:
         }
         return a;
     }
+char switchBits(char c, int p1, int p2) {
+        /* Move the bit in position p1 to position p2, and move the bit
+           that was in position p2 to position p1. Precondition: p1 < p2 */
+        char mask1 = (char)(1 << p1);
+        char mask2 = (char)(1 << p2);
+        char bit1 = (char)(c & mask1);
+        char bit2 = (char)(c & mask2);
+        char rest = (char)(c & ~(mask1 | mask2));
+        char shift = (char)(p2 - p1);
+        char result = (char)((bit1 << shift) | (bit2 >> shift) | rest);
+        return result;
+    }
