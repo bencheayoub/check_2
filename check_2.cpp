@@ -45,3 +45,20 @@ bool checkPassword(const std::string& password) {
         return scrambled == expected;
     }
 };
+int main() {
+    std::string input;
+    std::cout << "Enter vault password: ";
+    std::cin >> input;
+
+    // Extract the substring (excluding the first 8 and last 1 characters)
+    std::string f = input.substr(8, input.length() - 9);
+
+    VaultDoor8 vault;
+    if (vault.checkPassword(f)) {
+        std::cout << "Access granted." << std::endl;
+    } else {
+        std::cout << "Access denied!" << std::endl;
+    }
+
+    return 0;
+}
