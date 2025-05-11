@@ -5,11 +5,11 @@
 
 class VaultDoor8 {
 public:
-    std::vector<char> unscramble(const std::vector<char>& scrambled) {
+    std::vector<unsigned char> unscramble(const std::vector<unsigned char>& scrambled) {
         /* Reverse the scramble operation */
-        std::vector<char> a = scrambled;
+        std::vector<unsigned char> a = scrambled;
         for (size_t b = 0; b < a.size(); b++) {
-            char c = a[b];
+            unsigned char c = a[b];
             // Apply operations in reverse order
             c = switchBits(c, 6, 7);
             c = switchBits(c, 2, 5);
@@ -24,27 +24,27 @@ public:
         return a;
     }
 
-    char switchBits(char c, int p1, int p2) {
+    unsigned char switchBits(unsigned char c, int p1, int p2) {
         /* Same as original - this operation is its own inverse */
-        char mask1 = (char)(1 << p1);
-        char mask2 = (char)(1 << p2);
-        char bit1 = (char)(c & mask1);
-        char bit2 = (char)(c & mask2);
-        char rest = (char)(c & ~(mask1 | mask2));
-        char shift = (char)(p2 - p1);
-        char result = (char)((bit1 << shift) | (bit2 >> shift) | rest);
+        unsigned char mask1 = (unsigned char)(1 << p1);
+        unsigned char mask2 = (unsigned char)(1 << p2);
+        unsigned char bit1 = (unsigned char)(c & mask1);
+        unsigned char bit2 = (unsigned char)(c & mask2);
+        unsigned char rest = (unsigned char)(c & ~(mask1 | mask2));
+        unsigned char shift = (unsigned char)(p2 - p1);
+        unsigned char result = (unsigned char)((bit1 << shift) | (bit2 >> shift) | rest);
         return result;
     }
 
     std::string getPassword() {
-        std::vector<char> expected = {
+        std::vector<unsigned char> expected = {
             0xF4, 0xC0, 0x97, 0xF0, 0x77, 0x97, 0xC0, 0xE4,
             0xF0, 0x77, 0xA4, 0xD0, 0xC5, 0x77, 0xF4, 0x86,
             0xD0, 0xA5, 0x45, 0x96, 0x27, 0xB5, 0x77, 0xC2,
             0xD2, 0x95, 0xA4, 0xF0, 0xD2, 0xD2, 0xC1, 0x95
         };
         
-        std::vector<char> unscrambled = unscramble(expected);
+        std::vector<unsigned char> unscrambled = unscramble(expected);
         return std::string(unscrambled.begin(), unscrambled.end());
     }
 };
@@ -52,11 +52,6 @@ public:
 int main() {
     VaultDoor8 vault;
     std::string password = vault.getPassword();
-    
-    // The actual input needs to have 8 characters added at start and 1 at end
-    // Based on the original code's input processing:
-    // std::string f = input.substr(8, input.length() - 9);
-    // So the full password would be "xxxxxxxx" + password + "x" where x are any chars
     
     std::cout << "The unscrambled password part is: " << password << std::endl;
     std::cout << "A valid full password would be: \"whatever" << password << "x\"" << std::endl;
